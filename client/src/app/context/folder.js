@@ -1,6 +1,5 @@
 "use client"
 import { API } from "@/Utils/Utils";
-import axios from "axios";
 import { createContext, useReducer } from "react";
 
 let FolderS = {}

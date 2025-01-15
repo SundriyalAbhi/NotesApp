@@ -50,9 +50,6 @@ const body = {...text,Filters}
       }
     }
 
-    // useEffect(()=>{
-    //     console.log("aa");
-    // },tags)
   return (
     <div className="card shadow" style={{ width: "60%", height: "87vh",backgroundColor:"#f6f8fa", border:"none" }}>
 
