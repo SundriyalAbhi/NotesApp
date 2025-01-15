@@ -1,0 +1,11 @@
+/client/node_modules
+/client/.next
+/client/next.jsconfig.mjs
+/client/jsconfig.jsconfig
+/client/package-lock.json
+/client/src/app/components/Notes
+/client/src/app/pages/Home2
+
+/server/node_modules
+/server/package-lock.json
+/server/Config
