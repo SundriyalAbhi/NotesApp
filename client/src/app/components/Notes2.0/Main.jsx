@@ -4,6 +4,7 @@ import { NotesContext } from "@/app/context/NotesContext";
 import React, { useContext, useEffect, useState } from "react";
 import "./Home2.css";
 import "./Note.css";
+
 import { ShowN } from "./ShowN";
 import { useRouter } from "next/navigation";
 import NoteCard from "./NoteCard";
