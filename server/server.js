@@ -17,11 +17,18 @@ app.use(bodyParser.json({
 }))
 dotenv.config({path:"./Config/config.env"})
 connectdb()
+app.get("/",(req,res)=>{
+    try {
+        res.send("Hello")
+    } catch (error) {
+        console.log(error);
+    }
+})
 app.use(morgan("dev"))
 app.use("/auth",AuthRouter)
 app.use("/notes",NotesRouter)
 app.use("/folder",folderRouter)
 app.use("/profile",profileRouter)
-app.listen(8086,()=>{
+app.listen(process.env.PORT,()=>{
     console.log("server is runing");
 })
