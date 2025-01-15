@@ -2,9 +2,10 @@
   "name": "server",
   "version": "1.0.0",
   "description": "its revision for backend",
+  "private":"true",
   "main": "server.js",
   "scripts": {
-    "server": "nodemon server.js"
+    "server": "node server.js"
   },
   "author": "Abhishek",
   "license": "ISC",
