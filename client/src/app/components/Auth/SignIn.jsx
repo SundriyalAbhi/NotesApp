@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 // import './formstyle.css'
 import { AuthContext } from '@/app/context/AuthContext'
 import { useRouter } from 'next/navigation'
-import { all } from 'axios'
+
 
 
 export const SignIn = ({setMode}) => {

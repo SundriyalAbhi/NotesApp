@@ -20,15 +20,6 @@ export const MyProfile = () => {
         
     }
 
-   async function handelAddressdata(authdata,body){
-         try {
-          console.log(authdata);
-          const status = await addaddress(authdata,body)
-          getUserprofile(authdata)
-         } catch (error) {
-          console.log(error);
-         }
-    }
 
     async function handelupdateprofile(authdata,data) {
       try {
