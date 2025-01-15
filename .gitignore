@@ -7,5 +7,5 @@
 /client/src/app/pages/Home2
 
 /server/node_modules
+/server/Config/config.env
 /server/package-lock.json
-/server/Config
