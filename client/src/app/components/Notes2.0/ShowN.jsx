@@ -21,8 +21,7 @@ export const ShowN = ({ SetShowNote, setWriteNote }) => {
     createdAt: "",
     updatedAt: "",
   });
-  console.log(Data);
-  console.log(showNote);
+ 
   
 
   async function DeleteNotes(authdata,body) {

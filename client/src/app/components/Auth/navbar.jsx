@@ -6,7 +6,7 @@ import "./Main.css"
 const Navbar = () => {
     const router = useRouter()
     const {AuthData,Authdispatch} = useContext(AuthContext)
-    // console.log(AuthData.profilepic);
+
     
   return (
     <section className="navbar" style={{ width: "100%" }}>

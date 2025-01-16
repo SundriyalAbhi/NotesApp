@@ -64,7 +64,6 @@ export const Main = ({ setWriteNote, SetShowNote,SetShowAllNotes }) => {
   async function LoadNotes() {
     try {
       let data = await GetNotes(AuthData);
-      console.log(data);
       if (data == 401) {
         console.log("Token Expired");
         SettokenModal(true);
@@ -104,7 +103,6 @@ export const Main = ({ setWriteNote, SetShowNote,SetShowAllNotes }) => {
   async function FolderNotesList(authData, body) {
     try {
       const data = await getfolderlist(authData, body);
-      console.log(data);
       SetFolderNoteData(data);
     } catch (error) {
       console.log(error);
