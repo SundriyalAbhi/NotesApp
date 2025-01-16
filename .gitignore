@@ -5,6 +5,7 @@
 /client/package-lock.json
 /client/src/app/components/Notes
 /client/src/app/pages/Home2
+/client/src/app/components/Login
 
 /server/node_modules
 /server/Config/config.env

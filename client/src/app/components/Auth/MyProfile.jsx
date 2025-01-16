@@ -23,13 +23,11 @@ export const MyProfile = () => {
 
     async function handelupdateprofile(authdata,data) {
       try {
-        console.log(data);
         const status =  await profileupdate(authdata,{
           username:data.username||userProfile.username,
           email:data.email||userProfile.email,
           ProfilePicture:data.ProfilePicture||userProfile.ProfilePicture
         })
-        console.log(status);
         
          if(status==200){
           console.log("kk");
@@ -41,7 +39,6 @@ export const MyProfile = () => {
             payload: data.ProfilePicture
           })
          }
-        console.log(data);
         
       } catch (error) {
         console.log(error);
@@ -50,7 +47,6 @@ export const MyProfile = () => {
 
     async function handeldelete(authdata) {
       try {
-        console.log(authdata);
         const status = await deleteaccount(authdata)
         if(status==200){
           dispatch({

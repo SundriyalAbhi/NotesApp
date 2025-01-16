@@ -12,7 +12,6 @@ export const SignUp = ({setMode}) => {
               const status=await UserSignUp(formData);
               if(status==200){
                 setMode("signin")
-                console.log("signUp");
               }
             }else{
               alert("Passwords donot match")

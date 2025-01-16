@@ -3,7 +3,6 @@ const User = require("../model/user");
 
 exports.addNotes = async(req,res)=>{
     try {
-        console.log(req.body.Filters);
         const userId = req.params.id
         const Tags = [...req.body.tags]
         const notes = new Note({
