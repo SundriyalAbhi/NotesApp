@@ -9,6 +9,7 @@ let NotesContent = {}
 
 async function GetNotes(authData) {
     try {
+        API.interceptors.request.clear();
         API.interceptors.request.use((req)=>{
             req.headers.authorization = `bearer ${authData.token}`
             return req
@@ -23,6 +24,7 @@ async function GetNotes(authData) {
 
 async function AddNotes(AuthData,body) {
     try {
+        API.interceptors.request.clear();
         API.interceptors.request.use((req)=>{
             req.headers.authorization = `bearer ${AuthData.token}`
             return req
@@ -36,6 +38,7 @@ async function AddNotes(AuthData,body) {
 
 async function deleteNote(authData,body) {
     try {
+        API.interceptors.request.clear();
         API.interceptors.request.use((req)=>{
         req.headers.authorization = `bearer ${authData.token}`
         return req

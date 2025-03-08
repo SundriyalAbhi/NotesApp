@@ -1,78 +1,89 @@
-import React, { useContext, useState } from 'react'
-// import './formstyle.css'
-import { AuthContext } from '@/app/context/AuthContext'
-export const SignUp = ({setMode}) => {
-    const[formData,setFormData] = useState({})
-    const {UserSignUp} = useContext(AuthContext)
+import React, { useState, useContext } from 'react';
+import { AuthContext } from '@/app/context/AuthContext';
+import { Bounce, toast } from 'react-toastify';
 
-    async function handleSubmit() {
-        try {
-          if (formData?.Name != "" && formData?.email != "" && formData?.password != "" && formData?.confirmPassword != "") {
-            if(formData?.password == formData?.confirmPassword){
-              const status=await UserSignUp(formData);
-              if(status==200){
-                setMode("signin")
-              }
-            }else{
-              alert("Passwords donot match")
-            }
-          } else {
-            alert("Please fill out form")
+export const SignUp = ({ setMode }) => {
+  const [formData, setFormData] = useState({});
+  const { UserSignUp } = useContext(AuthContext);
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    try {
+      if (formData?.username && formData?.email && formData?.password && formData?.confirmPassword) {
+        if (formData.password === formData.confirmPassword) {
+          const status = await UserSignUp(formData);
+
+          if (status === 200) {
+            toast.success('SignUp successful', { position: 'top-center', autoClose: 3000, theme: 'light', transition: Bounce });
+            setTimeout(() => setMode('signin'), 3000);
           }
-        } catch (error) {
-          console.log(error);
-    
+        } else {
+          toast.error("Passwords don't match", { position: 'top-center', autoClose: 5000, theme: 'light', transition: Bounce });
         }
+      } else {
+        toast.error('Please fill out the form', { position: 'top-center', autoClose: 5000, theme: 'light', transition: Bounce });
       }
-      return (
-        <div className="d-flex justify-content-center align-items-center vh-100">
-      <div className="card p-4 shadow-lg" style={{backgroundcolor: "#f8f9fa", maxwidth: "500px", borderradius: "12px"}}>
-        <h2 className="text-center mb-4">Signup</h2>
-        
-        <div className="form-group">
-          <input type="text" className="form-control mb-3" placeholder="Username" onChange={(e) => {
-            setFormData(prev => ({ ...prev, username: e.target.value }));
-          }} style={{borderradius: "6px", backgroundcolor: "#e6e6e6"}} />
-        </div>
-    
-        <div className="form-group">
-          <input type="email" className="form-control mb-3" placeholder="Email" onChange={(e) => {
-            setFormData(prev => ({ ...prev, email: e.target.value }));
-          }} style={{borderradius: "6px", backgroundcolor: "#e6e6e6"}}/>
-        </div>
-    
-        <div className="form-group">
-          <input type="password" className="form-control mb-3" placeholder="Password" onChange={(e) => {
-            setFormData(prev => ({ ...prev, password: e.target.value }));
-          }} style={{borderradius: "6px", backgroundcolor: "#e6e6e6"}} />
-        </div>
-    
-        <div className="form-group">
-          <input type="password" className="form-control mb-3" placeholder="Confirm Password" onChange={(e) => {
-            setFormData(prev => ({ ...prev, confirmPassword: e.target.value }));
-          }} style={{borderradius: "6px", backgroundcolor: "#e6e6e6"}} />
-        </div>
-    
-        <label>Profile Picture</label>
-        <input type="file" className="form-control mb-3" onChange={(e) => {
-          const fileReader = new FileReader();
-          fileReader.readAsDataURL(e.target.files[0]);
-          fileReader.addEventListener("load", (e) => {
-            setFormData(prev => ({ ...prev, ProfilePicture: e.currentTarget.result }));
-          });
-        }} />
-    
-        <div className="text-center mb-3">
-          <img src={formData.ProfilePicture} className="rounded-circle" style={{width: "150px", height: "150px", objectfit: "cover"}} alt="Profile" />
-        </div>
-    
-        <button className="btn btn-primary w-100 mb-3" onClick={() => handleSubmit()}>Signup!</button>
-        
-        <button className="btn btn-outline-secondary w-100" onClick={() => setMode("signin")}>
-          Already have an account? Signin!
-        </button>
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  return (
+    <div className="d-flex justify-content-center align-items-center vh-100">
+          <div className='d-flex align-items-center justify-content-center mr-5'
+    style={{width:"600px",height:"48vh"}}><h1 className='align-self-center'>"Create an account and never lose an idea."</h1></div>
+      <div className="card p-4 shadow-lg" style={{ maxWidth: '500px', borderRadius: '20px' }}>
+        <h2 className="text-center mb-4">Create Account</h2>
+
+        <form onSubmit={handleSubmit}>
+          {['username', 'email', 'password', 'confirmPassword'].map((field, idx) => (
+            <div className="form-floating mb-3" key={idx}>
+              <input
+                type={field.includes('password') ? 'password' : 'text'}
+                className="form-control focus-ring focus-ring-dark border border-dark"
+                placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
+                onChange={(e) => setFormData((prev) => ({ ...prev, [field]: e.target.value }))}
+                required
+              />
+              <label>{field.charAt(0).toUpperCase() + field.slice(1)}</label>
+            </div>
+          ))}
+
+          <label className="form-label">Profile Picture</label>
+          <input
+            type="file"
+            className="form-control mb-3"
+            onChange={(e) => {
+              if (e.target.files.length > 0) {
+                const fileReader = new FileReader();
+                fileReader.onload = (event) => setFormData((prev) => ({ ...prev, ProfilePicture: event.target.result }));
+                fileReader.readAsDataURL(e.target.files[0]);
+              }
+            }}
+          />
+
+          {formData.ProfilePicture && (
+            <div className="text-center mb-3">
+              <img
+                src={formData.ProfilePicture}
+                alt="Profile"
+                className="rounded-circle"
+                style={{ width: '150px', height: '150px', objectFit: 'cover' }}
+              />
+            </div>
+          )}
+
+          <button type="submit" className="btn btn-dark w-100 mb-3">Sign Up</button>
+
+          <button
+            type="button"
+            className="btn btn-outline-secondary w-100"
+            onClick={() => setMode('signin')}
+          >
+            Already have an account? Sign In
+          </button>
+        </form>
       </div>
     </div>
-    
-      )
-}
+  );
+};

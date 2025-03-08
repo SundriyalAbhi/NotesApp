@@ -3,7 +3,7 @@ import { useRouter } from 'next/navigation';
 import React, { useContext, useEffect, useState } from 'react'
 
 export const MyProfile = () => {
-    const{AuthData,getprofile,deleteaccount,dispatch,profileupdate} = useContext(AuthContext)
+    const{AuthData,getprofile,deleteaccount,Authdispatch,profileupdate} = useContext(AuthContext)
     const [userProfile, setUserProfile] = useState({});
     const [ProfileModal, setProfileModal] = useState(false);
     const [Updatedprofile,Updateprofile] = useState({})
@@ -11,9 +11,9 @@ export const MyProfile = () => {
     const UserData = AuthData
     async function getUserprofile(authData) {
         try {
-          const data = await getprofile(authData)
-        setUserProfile({ ...data.myprofile })
-        console.log(userProfile);
+        const data = await getprofile(authData)
+        setUserProfile({ ...data.myprofile})
+        console.log(data);
         } catch (error) {
         console.log(error);
         }
@@ -30,11 +30,8 @@ export const MyProfile = () => {
         })
         
          if(status==200){
-          console.log("kk");
-          
           await getUserprofile(authdata)
-
-          dispatch({
+          Authdispatch({
             type: "UPDATE_PROFILE",
             payload: data.ProfilePicture
           })
@@ -68,7 +65,7 @@ export const MyProfile = () => {
         <div className="col-md-6">
           <div className="card">
             <div className="card-body text-center">
-              <h3 className="card-title">UserName:{userProfile.username}</h3>
+              <h3 className="card-title">UserName:{userProfile.Name}</h3>
               <img
         src={`${AuthData?.profilepic || "https://via.placeholder.com/30"}`}
         alt="Profile"

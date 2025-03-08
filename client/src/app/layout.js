@@ -3,6 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { AuthProvider } from "./context/AuthContext";
 import { NotesProvider } from "./context/NotesContext";
 import { FolderProvider } from "./context/folder";
+import { ToastContainer } from "react-toastify";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,6 +27,7 @@ export default function RootLayout({ children }) {
        <FolderProvider>
        <NotesProvider>
         <AuthProvider>
+          <ToastContainer/>
         {children}
         </AuthProvider>
         </NotesProvider>

@@ -34,10 +34,6 @@ export const Main = ({ setWriteNote, SetShowNote,SetShowAllNotes }) => {
   const [tokenModal, SettokenModal] = useState(false);
   const [Border, SetBorder] = useState("none");
   const router = useRouter();
-  // console.log(folderId);
-  // console.log(AllNOTES);
-  // console.log(AuthData);
-  // console.log(FolderNoteData);
   async function LoadFolders(AuthData) {
     try {
       let data = await getFolders(AuthData);
@@ -65,7 +61,6 @@ export const Main = ({ setWriteNote, SetShowNote,SetShowAllNotes }) => {
     try {
       let data = await GetNotes(AuthData);
       if (data == 401) {
-        console.log("Token Expired");
         SettokenModal(true);
       }
       dispatch({
@@ -129,8 +124,12 @@ export const Main = ({ setWriteNote, SetShowNote,SetShowAllNotes }) => {
   }
 
   useEffect(() => {
-    LoadFolders(AuthData);
-    LoadNotes();
+    if(!AuthData.token || AuthData.token==" "){
+      router.push('/pages/Login')
+    }else if(AuthData.userId !== ""){
+      LoadFolders(AuthData);
+      LoadNotes();
+    }
   }, []);
   return (
     <>
@@ -295,10 +294,22 @@ export const Main = ({ setWriteNote, SetShowNote,SetShowAllNotes }) => {
 ))}
 
               </ol>
-              <div className="add-note me-3 " title="Add More Notes" style={{cursor:"pointer"}} onClick={()=>{
+              <div className="add-note me-3 " title="Add More Notes" style={{cursor:"pointer",
+                 width: "60px",
+                 height: "60px",
+                 borderRadius: "50%",
+                 backgroundColor: "#F0F0F0",
+                 display: "flex",
+                 justifyContent: "center",
+                 alignItems: "center",
+                 position: "fixed",
+                 bottom: "20px",
+                 right: "20px",
+                 boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)",
+              }} onClick={()=>{
                 setWriteNote(true)
               }}>
-              <svg  xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="blue" class="bi bi-plus-lg" viewBox="0 0 16 16">
+              <svg  xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="blue" className="bi bi-plus-lg" viewBox="0 0 16 16">
   <path fillRule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
 </svg>
       </div>
@@ -392,9 +403,10 @@ export const Main = ({ setWriteNote, SetShowNote,SetShowAllNotes }) => {
                 style={{ overflowY: "scroll", height: "200px" }}
               >
                 {FolderNoteData?.FolderNotes?.length !== 0 ? (
-                  FolderNoteData?.FolderNotes?.map((ele) => {
+                  FolderNoteData?.FolderNotes?.map((ele,i) => {
                     return (
                       <div
+                      key={i}
                         className="d-flex mt-1 justify-content-between"
                         style={{
                           cursor: "pointer",
@@ -503,12 +515,7 @@ export const Main = ({ setWriteNote, SetShowNote,SetShowAllNotes }) => {
                   className="btn btn-primary"
                   onClick={() => {
                     Authdispatch({
-                      type: "SIGN_IN",
-                      payload: {
-                        token: "",
-                        userId: "",
-                        msg: "",
-                      },
+                      type: "SIGN_OUT",
                     });
                     router.push("/pages/Login");
                     SettokenModal(false);

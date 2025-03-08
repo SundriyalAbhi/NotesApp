@@ -89,9 +89,10 @@ export const ShowN = ({ SetShowNote, setWriteNote }) => {
                 className="modal-body bg-dark"
                 style={{ overflowY: "scroll", height: "200px" }}
               >
-                {folders?.Folders?.map((ele) => {
+                {folders?.Folders?.map((ele,i) => {
                   return (
                     <div
+                    key={i}
                       className="d-flex mt-1"
                       style={{
                         cursor: "pointer",
@@ -147,12 +148,12 @@ export const ShowN = ({ SetShowNote, setWriteNote }) => {
         </div>
       ) : (
         <div
-          className="container card shadow bg-dark"
+          className="card shadow "
           style={{
-            width: "58%",
-            height: "89vh",
-            backgroundColor: "white",
-            borderRadius: "10px",
+            width: "84%",
+            height:"87vh",
+            backgroundColor: "rgba(0, 0, 0, 0.84)",
+            borderRadius: "10px 10px 0px 0px",
             display: "flex",
             flexDirection: "column",
             padding: "20px",
@@ -169,9 +170,9 @@ export const ShowN = ({ SetShowNote, setWriteNote }) => {
 
           <div className="d-flex" style={{ width: "100%" }}>
             <div className="d-flex" style={{ width: "50%" }}>
-              {showNote?.tags?.map((ele) => {
+              {showNote?.tags?.map((ele,i) => {
                 return (
-                  <h5 className="ms-3" style={{ color: "white" }}>
+                  <h5 key={i} className="ms-3" style={{ color: "white" }}>
                     #{ele}
                   </h5>
                 );
@@ -182,7 +183,7 @@ export const ShowN = ({ SetShowNote, setWriteNote }) => {
               style={{ width: "50%" }}
             >
               <button
-                className="btn btn-outline-success me-2"
+                className="btn btn-outline-primary me-2"
                 onClick={() => {
                   // UPDATENOTE(showNote._id)
                   // setWriteNote(true)
