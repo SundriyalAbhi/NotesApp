@@ -45,7 +45,7 @@
   .list {
     display: none;
     position: absolute;
-    top: 40px; /* Adjust to move the dropdown below the image */
+    top: 30px; /* Adjust to move the dropdown below the image */
     right: 0;  /* Aligns the list to the right edge of the container */
     background-color: #333;
     padding: 10px;

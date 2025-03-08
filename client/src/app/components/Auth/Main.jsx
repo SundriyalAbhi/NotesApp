@@ -7,7 +7,7 @@ export const Main = () => {
 
   return (
     <>
-      <div className='' style={{ height: "100vh", backgroundColor: "#CE93D8" }}>
+      <div className='' style={{ height: "100vh" }}>
         
         {mode === "signin" && <SignIn setMode={setMode} />}
         {mode === "signup" && <SignUp setMode={setMode} />}

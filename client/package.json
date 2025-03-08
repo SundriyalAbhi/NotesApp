@@ -4,7 +4,6 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -14,7 +13,7 @@
     "bootstrap": "^5.3.3",
     "next": "15.1.4",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
-
+    "react-dom": "^19.0.0",
+    "react-toastify": "^11.0.5"
   }
 }

@@ -1,6 +1,6 @@
 "use client"
 
-import { baseURL } from "@/Utils/Utils";
+import { API, baseURL } from "@/Utils/Utils";
 import axios from "axios";
 
 let initialState={}
@@ -43,7 +43,12 @@ async function UserSignIn(body) {
 
 async function getprofile(authData) {
     try {
-        const responce = await axios.get(`${baseURL}/profile/getprofile/${authData.userId}`)
+        API.interceptors.request.clear();
+        API.interceptors.request.use((req)=>{
+            req.headers.authorization = `bearer ${authData.token}`
+            return req
+        })
+        const responce = await API.get(`/profile/getprofile/${authData.userId}`)
         return responce?.data
     } catch (error) {
         console.log(error);
@@ -52,7 +57,12 @@ async function getprofile(authData) {
 
 async function deleteaccount(authData) {
     try {
-        const responce = await axios.delete(`${baseURL}/profile/deleteprofile/${authData.userId}`)
+        API.interceptors.request.clear();
+        API.interceptors.request.use((req)=>{
+            req.headers.authorization = `bearer ${authData.token}`
+            return req
+        })
+        const responce = await API.delete(`/profile/deleteprofile/${authData.userId}`)
         return responce?.status
     } catch (error) {
         console.log(error);
@@ -61,9 +71,12 @@ async function deleteaccount(authData) {
 
 async function profileupdate(authData,body) {
     try {
-        console.log(body);
-        
-        const responce = await axios.put(`${baseURL}/profile/updateprofile/${authData.userId}`,body)
+        API.interceptors.request.clear();
+        API.interceptors.request.use((req)=>{
+            req.headers.authorization = `bearer ${authData.token}`
+            return req
+        })
+        const responce = await API.put(`${baseURL}/profile/updateprofile/${authData.userId}`,body)
         return responce?.status
     } catch (error) {
         console.log(error);
@@ -84,9 +97,10 @@ function reducer(state,action){
         return updatedState;
 
         case"SIGN_OUT":
-        const signoutstate = {token:"",userId:""}
-        localStorage.setItem("UserData",JSON.stringify(signoutstate));
-            return signoutstate
+        // const signoutstate = {token:"",userId:""}
+        // localStorage.setItem("UserData",JSON.stringify(signoutstate));
+        localStorage.clear()
+            return {token:"",userId:""}
     
         default:
             state;

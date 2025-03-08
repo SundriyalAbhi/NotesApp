@@ -7,6 +7,7 @@ let FolderS = {}
 
 async function getFolders(authData) {
     try {
+        API.interceptors.request.clear();
         API.interceptors.request.use((req)=>{
             req.headers.authorization = `bearer ${authData.token}`
             return req
@@ -21,6 +22,7 @@ async function getFolders(authData) {
 
 async function createfolder(AuthData,body) {
     try {
+        API.interceptors.request.clear();
         API.interceptors.request.use((req)=>{
             req.headers.authorization = `bearer ${AuthData.token}`
             return req
@@ -34,6 +36,7 @@ async function createfolder(AuthData,body) {
 
 async function AddNoteInFolder(authData,body) {
     try {
+        API.interceptors.request.clear();
         API.interceptors.request.use((req)=>{
             req.headers.authorization = `bearer ${authData.token}`
             return req
@@ -47,6 +50,7 @@ async function AddNoteInFolder(authData,body) {
 
 async function deletefolder(authData,body) {
     try {
+        API.interceptors.request.clear();
         API.interceptors.request.use((req)=>{
             req.headers.authorization = `bearer ${authData.token}`
             return req
@@ -60,6 +64,7 @@ async function deletefolder(authData,body) {
 
 async function deleteNotesfromfolder(authData,body) {
     try {
+        API.interceptors.request.clear();
         API.interceptors.request.use((req)=>{
             req.headers.authorization = `bearer ${authData.token}`
             return req
@@ -73,6 +78,7 @@ async function deleteNotesfromfolder(authData,body) {
 
 async function getfolderlist(authData,body) {
     try {
+        API.interceptors.request.clear();
         API.interceptors.request.use((req)=>{
             req.headers.authorization = `bearer ${authData.token}`
             return req

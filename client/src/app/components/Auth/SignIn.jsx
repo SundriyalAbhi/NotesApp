@@ -1,66 +1,121 @@
-import React, { useContext, useEffect, useState } from 'react'
-// import './formstyle.css'
-import { AuthContext } from '@/app/context/AuthContext'
-import { useRouter } from 'next/navigation'
+import React, { useState, useContext } from 'react';
+import { AuthContext } from '@/app/context/AuthContext';
+import { useRouter } from 'next/navigation';
+import { toast, Bounce } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
+export const SignIn = ({ setMode }) => {
+  const [formData, setFormData] = useState({});
+  const { Authdispatch, UserSignIn } = useContext(AuthContext);
+  const router = useRouter();
 
+  const handleSubmit = async () => {
+    try {
+      if (formData?.email && formData?.password) {
+        const logindata = await UserSignIn(formData);
 
-export const SignIn = ({setMode}) => {
-    const [formData,setFormData] = useState()
-    const {AuthData,Authdispatch,UserSignIn} = useContext(AuthContext)
-    const router = useRouter()
-
-      
-      async function handleSubmit() {
-        try {
-          if (formData?.email !== undefined && formData?.password !== undefined) {
-            const logindata = await UserSignIn(formData);
-            if(logindata==404){
-              alert("user does not Exists")
-            }else if(logindata==401){
-              alert("Wrong Password")
-            }
-            Authdispatch({
-              type: "SIGN_IN",
-              payload: logindata.data
-            })
-            if(logindata.status==200){
-              router.push("/pages/Home");
-            }
-          } else {
-            alert("Please fill out form")
-          }    
-        } catch (error) {
-          console.log(error);
-    
+        if (logindata === 404) {
+          toast.error('User does not exist', {
+            position: 'top-center',
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: 'light',
+            transition: Bounce,
+          });
+        } else if (logindata === 401) {
+          toast.error('Wrong Password', {
+            position: 'top-center',
+            autoClose: 3000,
+            theme: 'light',
+            transition: Bounce,
+          });
         }
-    
+
+        Authdispatch({
+          type: 'SIGN_IN',
+          payload: logindata.data,
+        });
+
+        if (logindata.status === 200) {
+          toast.success('Sign In Successful', {
+            position: 'top-center',
+            autoClose: 3000,
+            theme: 'light',
+            transition: Bounce,
+          });
+          setTimeout(() => router.push('/pages/Home'), 3000);
+        }
+      } else {
+        toast.warn('Please fill out the form', {
+          position: 'top-center',
+          autoClose: 3000,
+          theme: 'light',
+          transition: Bounce,
+        });
       }
-      return (
-        <div className='d-flex justify-content-center align-items-center' style={{ height: "100%"}}>
-          <div className="card p-3 d-flex justify-content-center align-items-center" style={{ backgroundColor: "#f2f2f2", width:"400px" }}>
-            <h5 className='d-flex justify-content-center align-items-center' style={{fontFamily:"sans-serif" , fontWeight:"700"}}>Signin</h5>
-            <div className="form-group mt-3 mb-3">
-          <input type="email" className="form-control" placeholder="Enter Email" onChange={(e) => {
-            setFormData(prev => ({ ...prev, email: e.target.value }));
-          }} style={{borderradius: "6px", backgroundcolor: "#e6e6e6",width:"300px"}} />
+    } catch (error) {
+      console.error('Login Error:', error);
+      toast.error('An error occurred. Please try again.', {
+        position: 'top-center',
+        autoClose: 3000,
+        theme: 'light',
+        transition: Bounce,
+      });
+    }
+  };
+
+  return (
+    <div className="d-flex align-items-center justify-content-center vh-100">
+      <div className='d-flex align-items-center justify-content-center mr-5'
+    style={{width:"600px",height:"48vh"}}><h1 className='align-self-center'>"Your thoughts are here. Log in to access them."</h1></div>
+      <div className="card p-4 shadow-lg" style={{ maxWidth: '400px', width: '100%', borderRadius: '20px' }}>
+        <h2 className="text-center mb-4">Sign In</h2>
+
+        <div className="form-floating mb-3">
+          <input
+            type="email"
+            className="form-control focus-ring focus-ring-secondary border border-secondary"
+            id="floatingEmail"
+            placeholder="Email"
+            onChange={(e) => setFormData((prev) => ({ ...prev, email: e.target.value }))}
+            required
+          />
+          <label htmlFor="floatingEmail">Email</label>
         </div>
-    
-        <div className="form-group mb-1">
-          <input type="password" className="form-control" placeholder="Enter Password" onChange={(e) => {
-            setFormData(prev => ({ ...prev, password: e.target.value }));
-          }} style={{borderradius: "6px", backgroundcolor: "#e6e6e6",width:"300px"}} />
+
+        <div className="form-floating mb-4">
+          <input
+            type="password"
+            className="form-control focus-ring focus-ring-secondary border border-secondary"
+            id="floatingPassword"
+            placeholder="Password"
+            onChange={(e) => setFormData((prev) => ({ ...prev, password: e.target.value }))}
+            required
+          />
+          <label htmlFor="floatingPassword">Password</label>
         </div>
-            <br />
-            <button className='btn btn-outline-primary' onClick={() => {
-              handleSubmit()
-            }} style={{borderRadius:"10px" , width:"160px"}}>Signin!</button>
-            <br />
-            <button className='btn btn-link w-100' onClick={() => {
-              setMode("signup")
-            }}>Dont Have An Account? Signup!</button>
-            <br />
-          </div>
+
+        <button
+          className="btn btn-dark align-self-center"
+          onClick={handleSubmit}
+          style={{ borderRadius: '6px',width:"120px",height:"50px" }}
+        >
+          Sign In
+        </button>
+
+        <div className="text-center mt-3 ">
+          <button
+            className="btn btn-link link-body-emphasis link-offset-2 link-underline-opacity-0 link-underline-opacity-75-hover"
+            onClick={() => setMode('signup')}
+          >
+            Don't have an account? Sign Up!
+          </button>
         </div>
-      )
-}
+      </div>
+    </div>
+  );
+};
