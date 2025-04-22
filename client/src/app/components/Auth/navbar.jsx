@@ -6,7 +6,11 @@ import "./Main.css"
 const Navbar = () => {
     const router = useRouter()
     const {AuthData,Authdispatch} = useContext(AuthContext)
+    const [ProfilePic,SetProfilePic] = useState()
 
+    useEffect(()=>{
+      SetProfilePic(AuthData.ProfilePicture)
+    },[])
     
   return (
     <section className="navbar" style={{ width: "100%" }}>
@@ -27,7 +31,7 @@ const Navbar = () => {
         </form>
         <div className="profile-container">
       <img
-        src={`${AuthData?.profilepic || "https://via.placeholder.com/30"}`}
+        src={`${ProfilePic || "https://via.placeholder.com/30"}`}
         alt="Profile"
         className="rounded-circle"
         width="40"
