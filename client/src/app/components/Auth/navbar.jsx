@@ -9,7 +9,7 @@ const Navbar = () => {
     const [ProfilePic,SetProfilePic] = useState()
 
     useEffect(()=>{
-      SetProfilePic(AuthData.ProfilePicture)
+      SetProfilePic(AuthData.profilepic)
     },[])
     
   return (
