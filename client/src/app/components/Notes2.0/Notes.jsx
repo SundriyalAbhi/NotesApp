@@ -83,7 +83,7 @@ const body = {...text,Filters}
         <select  value={text.case} className='ms-3' onChange={(e)=>{
             FilterVal({...Filters,case:e.target.value})
         }}>
-            <option value="" disabled selected>select</option>
+            <option defaultValue="" disabled selected>select</option>
             <option>uppercase</option>
             <option>lowercase</option>
             <option>capitalize</option>
